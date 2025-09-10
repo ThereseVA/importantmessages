@@ -20,29 +20,28 @@ export class ManagerDashboardComponent extends React.Component<IManagerDashboard
 
   public async componentDidMount(): Promise<void> {
     try {
-      // Check if user is a manager using the enhanced data service
-      const currentUser = enhancedDataService.getCurrentUser();
-      
-      if (currentUser) {
-        const isManager = currentUser.isManager || currentUser.isAdmin;
-        this.setState({
-          isManager,
-          loading: false,
-          error: null
-        });
-      } else {
-        this.setState({
-          isManager: false,
-          loading: false,
-          error: 'Unable to verify user permissions'
-        });
+      // Initialize the enhanced data service with the current context
+      if (this.props.context) {
+        await enhancedDataService.initialize(this.props.context);
       }
+      
+      // Check if user is a manager using the SharePoint Managers list
+      const isManager = await enhancedDataService.isCurrentUserManager();
+      
+      console.log('ManagerDashboard: Manager status from SharePoint list:', isManager);
+      
+      this.setState({
+        isManager,
+        loading: false,
+        error: null
+      });
+      
     } catch (error) {
-      console.error('Error checking manager status:', error);
+      console.error('Error checking manager status from SharePoint list:', error);
       this.setState({
         isManager: false,
         loading: false,
-        error: 'Failed to verify manager access'
+        error: 'Failed to verify manager access from SharePoint Managers list'
       });
     }
   }
@@ -72,11 +71,26 @@ export class ManagerDashboardComponent extends React.Component<IManagerDashboard
         <div style={{ padding: '30px', textAlign: 'center', border: '1px solid #ffbe00', borderRadius: '8px', backgroundColor: '#fffbf0' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
           <h3 style={{ color: '#d83b01', margin: '0 0 12px 0' }}>Manager Access Required</h3>
-          <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>
-            This Manager Dashboard is only accessible to managers and administrators.
+          <p style={{ margin: '0 0 12px 0', color: '#666', fontSize: '14px' }}>
+            This Manager Dashboard is only accessible to managers listed in the SharePoint Managers list.
           </p>
+          <div style={{ 
+            padding: '12px', 
+            backgroundColor: '#fff3cd', 
+            borderRadius: '4px', 
+            textAlign: 'left',
+            fontSize: '12px',
+            color: '#856404'
+          }}>
+            <strong>How manager access is determined:</strong>
+            <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
+              <li>Your email must be listed in the "Managers" SharePoint list</li>
+              <li>Your entry must have "Is Active" set to "Yes"</li>
+              <li>Contact HR or IT to be added to the managers list</li>
+            </ul>
+          </div>
           <p style={{ margin: '12px 0 0 0', color: '#666', fontSize: '12px' }}>
-            Contact your administrator if you need access to this feature.
+            Contact your administrator if you believe you should have manager access.
           </p>
         </div>
       );

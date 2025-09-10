@@ -62,9 +62,20 @@ export default class AdaptiveCardViewer extends React.Component<IAdaptiveCardVie
       // Initialize enhanced data service
       await enhancedDataService.initialize(this.props.context, this.props.context?.pageContext?.web?.absoluteUrl);
       
-      // Get current user to determine role (simplified - assume employee for now)
+      // Get current user and check manager status from SharePoint Managers list
       const currentUser = enhancedDataService.getCurrentUser();
-      const userRole = 'employee'; // TODO: Implement role detection in enhanced service
+      let userRole: 'manager' | 'employee' = 'employee';
+      
+      try {
+        // Check if current user is a manager using the Managers SharePoint list
+        const isManager = await enhancedDataService.isCurrentUserManager();
+        userRole = isManager ? 'manager' : 'employee';
+        console.log(`🎯 Manager status from SharePoint list: ${isManager}`);
+      } catch (error) {
+        console.warn('⚠️ Could not check manager status from SharePoint list:', error);
+        // Fallback to employee role if we can't check the list
+        userRole = 'employee';
+      }
       
       this.setState({ 
         userRole: userRole,

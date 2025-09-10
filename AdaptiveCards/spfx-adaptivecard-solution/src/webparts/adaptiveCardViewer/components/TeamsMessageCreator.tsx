@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { PrimaryButton, DefaultButton, TextField, Dropdown, MessageBar, MessageBarType, IDropdownOption, Label } from 'office-ui-fabric-react';
+import { useState, useEffect } from 'react';
+import { PrimaryButton, DefaultButton, TextField, Dropdown, MessageBar, MessageBarType, IDropdownOption, Label, Spinner, SpinnerSize } from 'office-ui-fabric-react';
 import { EnhancedTeamsService } from '../../../services/EnhancedTeamsService';
 import { enhancedDataService } from '../../../services/EnhancedDataService';
 import { SiteSelector } from './SiteSelector';
@@ -15,6 +15,10 @@ export const TeamsMessageCreator: React.FunctionComponent<ITeamsMessageCreatorPr
   console.log('🎯 TeamsMessageCreator component started');
   console.log('🎯 Props received:', props);
   console.log('🎯 Context available:', !!props.context);
+  
+  // Manager permission state
+  const [isManager, setIsManager] = useState<boolean | null>(null);
+  const [isCheckingPermissions, setIsCheckingPermissions] = useState(true);
   
   // Initialize with current SharePoint context if available
   const [currentSite, setCurrentSite] = useState<string>(
@@ -39,6 +43,42 @@ export const TeamsMessageCreator: React.FunctionComponent<ITeamsMessageCreatorPr
 
   console.log('🎯 TeamsMessageCreator state initialized');
   console.log('🎯 Form data:', formData);
+
+  // Check manager permissions on component mount
+  useEffect(() => {
+    const checkManagerPermissions = async () => {
+      if (!props.context) {
+        console.warn('🎯 No context available for permission check');
+        setIsCheckingPermissions(false);
+        setIsManager(false);
+        return;
+      }
+
+      try {
+        console.log('🎯 Checking manager permissions...');
+        
+        // Initialize the enhanced data service if not already done
+        try {
+          await enhancedDataService.initialize(props.context);
+        } catch (initError) {
+          console.warn('🎯 Service already initialized or initialization failed:', initError);
+        }
+        
+        // Check if current user is a manager using the Managers SharePoint list
+        const managerStatus = await enhancedDataService.isCurrentUserManager();
+        console.log('🎯 Manager status:', managerStatus);
+        
+        setIsManager(managerStatus);
+        setIsCheckingPermissions(false);
+      } catch (error) {
+        console.error('🎯 Error checking manager permissions:', error);
+        setIsManager(false);
+        setIsCheckingPermissions(false);
+      }
+    };
+
+    checkManagerPermissions();
+  }, [props.context]);
 
   // Rich text editor functions - safer implementation
   const contentRef = React.useRef<HTMLDivElement>(null);
@@ -411,15 +451,63 @@ export const TeamsMessageCreator: React.FunctionComponent<ITeamsMessageCreatorPr
       {/* Debug info - only shows in console, this is to verify render is called */}
       {console.log('🎯 TeamsMessageCreator render() called - Component is rendering!')}
 
-      {/* Site Selector */}
-      <SiteSelector 
-        onSiteSelected={handleSiteSelected}
-        currentSite={currentSite}
-      />
+      {/* Permission checking state */}
+      {isCheckingPermissions && (
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <Spinner size={SpinnerSize.large} label="Checking permissions..." />
+          <p style={{ marginTop: '10px', color: '#666' }}>
+            Verifying your manager access from SharePoint list...
+          </p>
+        </div>
+      )}
 
-      {/* Show form only after site is selected */}
-      {currentSite && (
+      {/* Access denied for non-managers */}
+      {!isCheckingPermissions && isManager === false && (
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          <MessageBar
+            messageBarType={MessageBarType.blocked}
+            isMultiline={true}
+          >
+            <h3>🔒 Access Restricted</h3>
+            <p>
+              <strong>Message creation is restricted to managers only.</strong>
+            </p>
+            <p>
+              You are not currently listed as a manager in the SharePoint Managers list. 
+              If you believe this is an error, please contact your administrator.
+            </p>
+            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#fff3cd', borderRadius: '4px' }}>
+              <strong>How manager access is determined:</strong>
+              <ul style={{ textAlign: 'left', marginTop: '8px' }}>
+                <li>Your email must be listed in the "Managers" SharePoint list</li>
+                <li>Your entry must have "Is Active" set to "Yes"</li>
+                <li>Contact HR or IT to be added to the managers list</li>
+              </ul>
+            </div>
+          </MessageBar>
+        </div>
+      )}
+
+      {/* Manager access granted - show the full interface */}
+      {!isCheckingPermissions && isManager === true && (
         <>
+          <MessageBar
+            messageBarType={MessageBarType.success}
+            isMultiline={false}
+            dismissButtonAriaLabel="Close"
+          >
+            ✅ Manager access confirmed. You can create and distribute messages.
+          </MessageBar>
+
+          {/* Site Selector */}
+          <SiteSelector 
+            onSiteSelected={handleSiteSelected}
+            currentSite={currentSite}
+          />
+
+          {/* Show form only after site is selected */}
+          {currentSite && (
+            <>
           {/* Quick Templates */}
           <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
             <h4>⚡ Quick Templates:</h4>
@@ -693,6 +781,8 @@ export const TeamsMessageCreator: React.FunctionComponent<ITeamsMessageCreatorPr
           <li><strong>Teams App:</strong> Package as a full Teams application</li>
         </ul>
       </div>
+            </>
+          )}
         </>
       )}
     </div>

@@ -2,6 +2,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 import { IHttpClientOptions } from '@microsoft/sp-http';
 import { graphService, IGraphUser } from './GraphService';
+import { ManagersListService } from './ManagersListService';
 
 // Keep existing interfaces
 export interface IMessage {
@@ -49,6 +50,7 @@ export interface IEnhancedUser {
 
 export class EnhancedDataService {
   private context: WebPartContext;
+  private managersService: ManagersListService;
   private readonly MESSAGES_LIST = 'Important Messages';
   private readonly READ_ACTIONS_LIST = 'MessageReadConfirmations';
   private customSiteUrl: string = '';
@@ -59,6 +61,7 @@ export class EnhancedDataService {
    */
   public async initialize(context: WebPartContext, dataSourceUrl?: string): Promise<void> {
     this.context = context;
+    this.managersService = new ManagersListService(context);
     
     try {
       // Initialize Graph service with proper error handling
@@ -110,24 +113,48 @@ export class EnhancedDataService {
   public async getEnhancedCurrentUser(): Promise<IEnhancedUser> {
     try {
       const enhanced = await graphService.getEnhancedUserInfo();
+      const userEmail = enhanced.graph?.mail || enhanced.context?.email || '';
+      
+      // Check if user is manager using SharePoint Managers list
+      let isManager = false;
+      try {
+        if (this.managersService && userEmail) {
+          isManager = await this.managersService.isUserManager(userEmail);
+        }
+      } catch (error) {
+        console.warn('EnhancedDataService: Error checking manager status from SharePoint list:', error);
+        // Fallback to Graph service result
+        isManager = enhanced.isManager;
+      }
       
       return {
         displayName: enhanced.graph?.displayName || enhanced.context?.displayName || 'Unknown',
-        email: enhanced.graph?.mail || enhanced.context?.email || '',
+        email: userEmail,
         graph: enhanced.graph,
         spfx: enhanced.context,
         groups: enhanced.groups,
         hasPhoto: !!enhanced.photo,
-        isManager: enhanced.isManager,
+        isManager: isManager,
         isAdmin: enhanced.isAdmin
       };
     } catch (error) {
       console.warn('EnhancedDataService: Error getting enhanced user info, using SPFx fallback:', error);
       
-      // Fallback to SPFx context only
+      // Fallback to SPFx context only with SharePoint manager check
+      const email = this.context?.pageContext?.user?.email || '';
+      let isManager = false;
+      
+      try {
+        if (this.managersService && email) {
+          isManager = await this.managersService.isUserManager(email);
+        }
+      } catch (error) {
+        console.warn('EnhancedDataService: Error checking manager status in fallback:', error);
+      }
+      
       return {
         displayName: this.context?.pageContext?.user?.displayName || 'Unknown',
-        email: this.context?.pageContext?.user?.email || '',
+        email: email,
         graph: null,
         spfx: this.context?.pageContext?.user ? {
           displayName: this.context.pageContext.user.displayName,
@@ -136,9 +163,89 @@ export class EnhancedDataService {
         } : null,
         groups: [],
         hasPhoto: false,
-        isManager: false,
+        isManager: isManager,
         isAdmin: false
       };
+    }
+  }
+
+  /**
+   * Check if the current user is a manager according to SharePoint Managers list
+   */
+  public async isCurrentUserManager(): Promise<boolean> {
+    try {
+      if (!this.managersService) {
+        console.warn('EnhancedDataService: ManagersListService not initialized');
+        return false;
+      }
+      
+      const userEmail = this.context?.pageContext?.user?.email;
+      if (!userEmail) {
+        console.warn('EnhancedDataService: No user email available');
+        return false;
+      }
+      
+      return await this.managersService.isUserManager(userEmail);
+    } catch (error) {
+      console.error('EnhancedDataService: Error checking manager status:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Check if a specific user is a manager
+   */
+  public async isUserManager(userEmail: string): Promise<boolean> {
+    try {
+      if (!this.managersService) {
+        console.warn('EnhancedDataService: ManagersListService not initialized');
+        return false;
+      }
+      
+      return await this.managersService.isUserManager(userEmail);
+    } catch (error) {
+      console.error('EnhancedDataService: Error checking manager status for user:', userEmail, error);
+      return false;
+    }
+  }
+
+  /**
+   * Get manager details for the current user
+   */
+  public async getCurrentUserManagerDetails() {
+    try {
+      if (!this.managersService) {
+        console.warn('EnhancedDataService: ManagersListService not initialized');
+        return null;
+      }
+      
+      const userEmail = this.context?.pageContext?.user?.email;
+      if (!userEmail) {
+        console.warn('EnhancedDataService: No user email available');
+        return null;
+      }
+      
+      return await this.managersService.getManagerDetails(userEmail);
+    } catch (error) {
+      console.error('EnhancedDataService: Error getting manager details:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get all active managers from SharePoint list
+   */
+  public async getAllManagers() {
+    try {
+      if (!this.managersService) {
+        console.warn('EnhancedDataService: ManagersListService not initialized');
+        return [];
+      }
+      
+      return await this.managersService.getActiveManagers();
+    } catch (error) {
+      console.error('EnhancedDataService: Error getting all managers:', error);
+      return [];
     }
   }
 
