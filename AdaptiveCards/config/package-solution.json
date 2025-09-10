@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "spfx-adaptivecard-solution",
+    "id": "c6ce4032-aff9-46c1-ac81-0fdf375ef230",
+    "version": "3.0.001.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read"
+      },
+      {
+        "resource": "Microsoft Graph", 
+        "scope": "Group.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Sites.Read.All"
+      }
+    ],
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "🚀 NUCLEAR v3.0.001 Cache Debug Manager Access"
+      },
+      "longDescription": {
+        "default": "Nuclear cache-breaking debugging for persistent manager access failures - comprehensive SharePoint list enumeration"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "🚀 NUCLEAR v3.0.001 Manager Access Debug Feature",
+        "description": "Nuclear cache-breaking version for comprehensive debugging of persistent manager access failures with enhanced SharePoint enumeration.",
+        "id": "1beb7528-36d2-4c29-b556-ef4d43b0f640",
+        "version": "3.0.001.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/spfx-adaptivecard-solution.sppkg"
+  }
+}
