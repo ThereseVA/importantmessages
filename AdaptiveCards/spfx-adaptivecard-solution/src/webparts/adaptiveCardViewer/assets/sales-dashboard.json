@@ -1,0 +1,142 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.3",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "📊 Sales Dashboard",
+      "weight": "Bolder",
+      "size": "Large",
+      "color": "Accent"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "Container",
+              "style": "emphasis",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Monthly Revenue",
+                  "weight": "Bolder",
+                  "horizontalAlignment": "Center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "$125,000",
+                  "size": "ExtraLarge",
+                  "weight": "Bolder",
+                  "color": "Good",
+                  "horizontalAlignment": "Center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "↗️ +15% from last month",
+                  "size": "Small",
+                  "color": "Good",
+                  "horizontalAlignment": "Center"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "Container",
+              "style": "attention",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Active Deals",
+                  "weight": "Bolder",
+                  "horizontalAlignment": "Center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "47",
+                  "size": "ExtraLarge",
+                  "weight": "Bolder",
+                  "color": "Warning",
+                  "horizontalAlignment": "Center"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "🔥 5 closing this week",
+                  "size": "Small",
+                  "color": "Warning",
+                  "horizontalAlignment": "Center"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "spacing": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "🎯 Top Performers",
+      "weight": "Bolder",
+      "size": "Medium",
+      "spacing": "Large"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "🥇 Sarah Johnson:",
+          "value": "$45,000 (36% of target)"
+        },
+        {
+          "title": "🥈 Mike Chen:",
+          "value": "$38,500 (31% of target)"
+        },
+        {
+          "title": "🥉 Lisa Brown:",
+          "value": "$32,000 (26% of target)"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "style": "good",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "🎉 Team is on track to exceed Q3 goals by 12%!",
+          "weight": "Bolder",
+          "wrap": true,
+          "horizontalAlignment": "Center"
+        }
+      ],
+      "spacing": "Medium"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "📈 View Detailed Report",
+      "data": {
+        "action": "viewReport",
+        "reportType": "sales",
+        "period": "monthly"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "🔄 Refresh Data",
+      "data": {
+        "action": "refresh"
+      }
+    }
+  ]
+}

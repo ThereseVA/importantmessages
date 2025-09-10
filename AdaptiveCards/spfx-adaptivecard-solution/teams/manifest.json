@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.38",
+  "id": "d7f8a9b2-c4e6-4821-9f3e-1a5b7c9d2e4f",
+  "packageName": "com.yourorganization.spfx.adaptivecard.solution.v2",
+  "developer": {
+    "name": "Your Organization",
+    "websiteUrl": "https://yourorganization.com",
+    "privacyUrl": "https://yourorganization.com/privacy",
+    "termsOfUseUrl": "https://yourorganization.com/terms"
+  },
+  "icons": {
+    "color": "bf3498e7-cf47-4703-8434-e3ec549d761e_color.png",
+    "outline": "bf3498e7-cf47-4703-8434-e3ec549d761e_outline.png"
+  },
+  "name": {
+    "short": "📝 Message Creator",
+    "full": "📝 Teams Message Creator - Create Important Messages with Read Tracking"
+  },
+  "description": {
+    "short": "🚀 Create important team messages with read tracking & analytics",
+    "full": "Create and distribute important messages directly from Microsoft Teams. Features: ✅ Create formatted messages with priority levels ✅ Track who has read messages ✅ Manager dashboard with analytics ✅ SharePoint integration ✅ Real-time read confirmations. Perfect for announcements, updates, and critical communications that need confirmation."
+  },
+  "accentColor": "#0078D4",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3FopenPropertyPane=true%26teams%26componentId=e6f7a8b9-c1d2-3456-7890-123456789def%26forceLocale={locale}",
+      "canUpdateConfiguration": true,
+      "scopes": ["team", "groupchat"],
+      "context": ["channelTab", "privateChatTab", "meetingChatTab"]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "messageCreator",
+      "name": "📝 Create Message",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/sites/Gustafkliniken/SitePages/TeamsMessageCreator.aspx",
+      "websiteUrl": "https://{teamSiteDomain}/sites/Gustafkliniken",
+      "scopes": ["personal", "team", "groupchat"]
+    },
+    {
+      "entityId": "managerDashboard", 
+      "name": "📊 Analytics",
+      "contentUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/sites/Gustafkliniken/SitePages/ManagerDashboard.aspx",
+      "websiteUrl": "https://{teamSiteDomain}/sites/Gustafkliniken",
+      "scopes": ["personal", "team", "groupchat"]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "*.sharepoint.com",
+    "*.onmicrosoft.com",
+    "gustafkliniken.sharepoint.com"
+  ]
+}
+

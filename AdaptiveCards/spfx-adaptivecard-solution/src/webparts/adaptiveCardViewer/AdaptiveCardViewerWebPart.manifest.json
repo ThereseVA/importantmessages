@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "f6a7b8c9-d0e1-2345-6789-012345fabcde",
+  "alias": "AdaptiveCardViewerWebPart",
+  "componentType": "WebPart",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Advanced" },
+    "title": { "default": "🌟 Ultimate Adaptive Card Viewer" },
+    "description": { "default": "Ultimate v3.0 - Clean deployment with full dropdown functionality" },
+    "officeFabricIconFontName": "Sparkle",
+    "properties": {
+      "title": "🌟 Ultimate Adaptive Card Viewer",
+      "cardJsonUrl": "",
+      "enableActions": true,
+      "cardSource": "teams-message-creator"
+    }
+  }]
+}

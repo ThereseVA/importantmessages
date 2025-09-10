@@ -1,0 +1,141 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://adaptivecards.io/content/cats/1.png",
+                  "size": "Small",
+                  "style": "Person"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Important System Notification",
+                  "weight": "Bolder",
+                  "size": "Medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "SharePoint Framework & Adaptive Cards Integration",
+                  "spacing": "None",
+                  "size": "Small",
+                  "color": "Accent",
+                  "isSubtle": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "📢 **System Update Complete**",
+          "wrap": true,
+          "size": "Default",
+          "weight": "Bolder"
+        },
+        {
+          "type": "TextBlock",
+          "text": "Your SharePoint Framework solution with Adaptive Cards has been successfully deployed and is now running with full functionality. This demonstrates the integration between SPFx, Adaptive Cards, and SharePoint services.",
+          "wrap": true,
+          "spacing": "Medium"
+        },
+        {
+          "type": "FactSet",
+          "spacing": "Medium",
+          "facts": [
+            {
+              "title": "Status:",
+              "value": "✅ Active"
+            },
+            {
+              "title": "Framework:",
+              "value": "SharePoint Framework 1.18.2"
+            },
+            {
+              "title": "Node Version:",
+              "value": "18.18.2"
+            },
+            {
+              "title": "Adaptive Cards:",
+              "value": "2.11.3"
+            },
+            {
+              "title": "Integration:",
+              "value": "SharePoint Lists + Power Automate"
+            },
+            {
+              "title": "Features:",
+              "value": "Action Handling, Notifications, DataService"
+            }
+          ]
+        },
+        {
+          "type": "Container",
+          "style": "good",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "🎯 **Testing Instructions:**",
+              "weight": "Bolder",
+              "size": "Default"
+            },
+            {
+              "type": "TextBlock",
+              "text": "• Click 'Mark as Read' to test action handling\n• Use 'Open Documentation' to test URL actions\n• Check browser console for debug information\n• Notifications will appear in top-right corner",
+              "wrap": true,
+              "spacing": "Small"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "📖 Open Documentation",
+      "url": "https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/build-a-hello-world-web-part"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "✅ Mark as Read",
+      "data": {
+        "action": "markAsRead",
+        "messageId": 12345,
+        "timestamp": "2025-07-30T08:00:00Z",
+        "user": "current"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "🔄 Refresh Data",
+      "data": {
+        "action": "refreshData",
+        "source": "sharepoint"
+      }
+    }
+  ]
+}

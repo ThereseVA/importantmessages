@@ -1,0 +1,111 @@
+.dashboardWebPart {
+  .container {
+    max-width: 700px;
+    margin: 0px auto;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .row {
+    @media (min-width: 768px) {
+      display: flex;
+      margin: 1.5rem auto;
+    }
+  }
+
+  .column {
+    @media (min-width: 768px) {
+      flex: 1;
+      margin: 0 16px;
+    }
+  }
+
+  .title {
+    @media (min-width: 768px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    color: "[theme:bodyText, default: #323130]";
+    font-size: 28px;
+    font-weight: 700;
+    padding: 8px 0;
+    position: relative;
+    text-align: center;
+
+    &.teams {
+      color: "[theme:body.contentColor, default: #323130]";
+    }
+
+    &.teamsHighContrast {
+      color: "[theme:body.contentColor, default: #FFFFFF]";
+    }
+  }
+
+  .subTitle {
+    color: "[theme:bodyText, default: #605e5c]";
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 0 12px 0;
+
+    &.teams {
+      color: "[theme:body.contentColor, default: #605e5c]";
+    }
+
+    &.teamsHighContrast {
+      color: "[theme:body.contentColor, default: #FFFFFF]";
+    }
+  }
+
+  .description {
+    color: "[theme:bodyText, default: #605e5c]";
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 0 16px 0;
+
+    &.teams {
+      color: "[theme:body.contentColor, default: #605e5c]";
+    }
+
+    &.teamsHighContrast {
+      color: "[theme:body.contentColor, default: #FFFFFF]";
+    }
+  }
+
+  .button {
+    background-color: "[theme:themePrimary, default: #0078d4]";
+    border: none;
+    border-radius: 4px;
+    color: "[theme:white, default: #ffffff]";
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    height: 32px;
+    min-width: 80px;
+    padding: 0 16px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: "[theme:themeDarkAlt, default: #106ebe]";
+    }
+
+    &.teams {
+      background-color: "[theme:button.background, default: #0078d4]";
+      color: "[theme:button.contentColor, default: #ffffff]";
+
+      &:hover {
+        background-color: "[theme:button.hoverBackground, default: #106ebe]";
+      }
+    }
+
+    &.teamsHighContrast {
+      background-color: "[theme:button.background, default: #ffff00]";
+      color: "[theme:button.contentColor, default: #000000]";
+
+      &:hover {
+        background-color: "[theme:button.hoverBackground, default: #ffff00]";
+      }
+    }
+  }
+}

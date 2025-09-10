@@ -1,0 +1,161 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "triggers": {
+      "manual": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "messageId": {"type": "string"},
+              "userEmail": {"type": "string"},
+              "userName": {"type": "string"},
+              "originalSubject": {"type": "string"},
+              "readTimestamp": {"type": "string"}
+            },
+            "required": ["messageId", "userEmail", "userName"]
+          }
+        }
+      }
+    },
+    "actions": {
+      "Get_Current_User_Info": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['office365users']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/users/@{encodeURIComponent(triggerBody()?['userEmail'])}"
+        },
+        "runAfter": {}
+      },
+      "Create_Read_Confirmation": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "post",
+          "body": {
+            "MessageId": "@triggerBody()?['messageId']",
+            "UserId": "@body('Get_Current_User_Info')?['id']",
+            "UserEmail": "@triggerBody()?['userEmail']",
+            "UserDisplayName": "@triggerBody()?['userName']",
+            "ReadTimestamp": "@triggerBody()?['readTimestamp']",
+            "DeviceInfo": "Teams Adaptive Card"
+          },
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://gustafkliniken.sharepoint.com/sites/Gustafkliniken'))}/tables/@{encodeURIComponent(encodeURIComponent('MessageReadConfirmations'))}/items"
+        },
+        "runAfter": {
+          "Get_Current_User_Info": ["Succeeded"]
+        }
+      },
+      "Update_Message_ReadBy_Field": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "patch",
+          "body": {
+            "ReadBy": "@{if(empty(body('Get_Message_Current_ReadBy')?['ReadBy']), triggerBody()?['userName'], concat(body('Get_Message_Current_ReadBy')?['ReadBy'], '; ', triggerBody()?['userName']))}"
+          },
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://gustafkliniken.sharepoint.com/sites/Gustafkliniken'))}/tables/@{encodeURIComponent(encodeURIComponent('Important Messages'))}/items/@{encodeURIComponent(triggerBody()?['messageId'])}"
+        },
+        "runAfter": {
+          "Get_Message_Current_ReadBy": ["Succeeded"]
+        }
+      },
+      "Get_Message_Current_ReadBy": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://gustafkliniken.sharepoint.com/sites/Gustafkliniken'))}/tables/@{encodeURIComponent(encodeURIComponent('Important Messages'))}/items/@{encodeURIComponent(triggerBody()?['messageId'])}"
+        },
+        "runAfter": {
+          "Create_Read_Confirmation": ["Succeeded"]
+        }
+      },
+      "Send_Confirmation_Response": {
+        "type": "Response",
+        "inputs": {
+          "statusCode": 200,
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "status": "success",
+            "message": "Thank you for confirming! Your read confirmation has been recorded.",
+            "userName": "@triggerBody()?['userName']",
+            "messageSubject": "@triggerBody()?['originalSubject']",
+            "timestamp": "@utcNow()"
+          }
+        },
+        "runAfter": {
+          "Update_Message_ReadBy_Field": ["Succeeded"]
+        }
+      },
+      "Optional_Send_Teams_Confirmation": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['teams']['connectionId']"
+            }
+          },
+          "method": "post",
+          "body": {
+            "recipient": {
+              "to": "@triggerBody()?['userEmail']"
+            },
+            "messageBody": {
+              "contentType": "text",
+              "content": "✅ Thank you for confirming! Your read confirmation for \"@{triggerBody()?['originalSubject']}\" has been recorded in the dashboard."
+            }
+          },
+          "path": "/v1.0/chats/@{encodeURIComponent('chat-id')}/messages"
+        },
+        "runAfter": {
+          "Send_Confirmation_Response": ["Succeeded"]
+        }
+      }
+    }
+  },
+  "parameters": {
+    "$connections": {
+      "value": {
+        "sharepointonline": {
+          "connectionId": "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Web/connections/sharepointonline",
+          "connectionName": "sharepointonline",
+          "id": "/subscriptions/{subscription-id}/providers/Microsoft.Web/locations/{location}/managedApis/sharepointonline"
+        },
+        "office365users": {
+          "connectionId": "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Web/connections/office365users",
+          "connectionName": "office365users",
+          "id": "/subscriptions/{subscription-id}/providers/Microsoft.Web/locations/{location}/managedApis/office365users"
+        },
+        "teams": {
+          "connectionId": "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Web/connections/teams",
+          "connectionName": "teams",
+          "id": "/subscriptions/{subscription-id}/providers/Microsoft.Web/locations/{location}/managedApis/teams"
+        }
+      }
+    }
+  }
+}

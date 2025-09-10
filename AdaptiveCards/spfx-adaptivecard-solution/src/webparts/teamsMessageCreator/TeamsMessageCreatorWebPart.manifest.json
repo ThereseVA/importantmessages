@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "c8d9e0f1-2345-6789-abcd-ef0123456789",
+  "alias": "TeamsMessageCreatorWebPart",
+  "componentType": "WebPart",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Communication and Collaboration" },
+    "title": { "default": "📝 Teams Message Creator" },
+    "description": { "default": "Create and send messages to Teams channels (Manager Only)" },
+    "officeFabricIconFontName": "Edit",
+    "properties": {
+      "title": "📝 Teams Message Creator"
+    }
+  }]
+}

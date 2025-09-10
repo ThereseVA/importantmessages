@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Corporate Communication Manager Portal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #323130;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #0078d4;
+        }
+        .button {
+            display: inline-block;
+            background: #0078d4;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 5px 5px 5px 0;
+            transition: background 0.2s;
+        }
+        .button:hover {
+            background: #106ebe;
+        }
+        .button.success { background: #107c10; }
+        .button.success:hover { background: #0e6d0e; }
+        .button.warning { background: #ca5010; }
+        .button.warning:hover { background: #b4460e; }
+        .instructions {
+            background: #e8f4fd;
+            border-left: 4px solid #0078d4;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Corporate Communication Manager Portal</h1>
+        
+        <div class="instructions">
+            <h3>🎯 How to Use This Portal</h3>
+            <p>Click the buttons below to open different management tools. Replace <strong>[YOUR-SHAREPOINT-URL]</strong> with your actual SharePoint site URL where the Nuclear web parts are deployed.</p>
+        </div>
+
+        <div class="card">
+            <h3>📝 Create New Messages</h3>
+            <p>Access the Teams Message Creator to compose and send new corporate communications to specific teams or groups.</p>
+            <a href="[YOUR-SHAREPOINT-URL]?component=teams-message-creator" class="button" target="_blank">
+                📝 Open Message Creator
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>👥 Manager Dashboard</h3>
+            <p>Advanced management interface for overseeing all corporate communications, analytics, and user engagement metrics.</p>
+            <a href="[YOUR-SHAREPOINT-URL]?component=manager-dashboard" class="button success" target="_blank">
+                👥 Open Manager Dashboard
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>🔍 Message Diagnostics</h3>
+            <p>Troubleshoot message delivery, view detailed logs, and analyze message targeting and distribution.</p>
+            <a href="[YOUR-SHAREPOINT-URL]?component=message-list-diagnostic" class="button warning" target="_blank">
+                🔍 Open Diagnostics
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>📊 Personal Dashboard</h3>
+            <p>Your personal view of received messages with quick action buttons to access all management tools.</p>
+            <a href="[YOUR-SHAREPOINT-URL]" class="button" target="_blank">
+                📊 Open Personal Dashboard
+            </a>
+        </div>
+
+        <div class="instructions">
+            <h3>⚙️ Setup Instructions</h3>
+            <ol>
+                <li>Replace <code>[YOUR-SHAREPOINT-URL]</code> with your SharePoint page URL</li>
+                <li>Save this file to your computer or SharePoint site</li>
+                <li>Bookmark it for easy access to all management tools</li>
+                <li>Share with other managers who need access to the system</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

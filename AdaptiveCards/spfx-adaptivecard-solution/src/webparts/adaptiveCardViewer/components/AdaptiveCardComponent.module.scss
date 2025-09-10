@@ -1,0 +1,139 @@
+.adaptiveCardComponent {
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* v1.0.37.0 cache-busting marker - CRITICAL FIX: SharePoint context null checks - force deployment refresh */
+}
+
+.cardContainer {
+  margin-top: 16px;
+  
+  /* Adaptive Cards styling */
+  .acContainer {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .acTextBlock {
+    margin-bottom: 8px;
+  }
+  
+  .acFactSet {
+    margin: 16px 0;
+  }
+  
+  .acFact {
+    display: flex;
+    margin-bottom: 4px;
+    
+    .acFactTitle {
+      font-weight: 600;
+      margin-right: 8px;
+      min-width: 100px;
+    }
+    
+    .acFactValue {
+      flex: 1;
+    }
+  }
+  
+  .acActionSet {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #edebe9;
+  }
+  
+  .acPushButton {
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 8px 16px;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    
+    &:hover {
+      background: #106ebe;
+    }
+    
+    &:active {
+      background: #005a9e;
+    }
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #666;
+  
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0078d4;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 12px;
+  }
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  background: #fef7f1;
+  border: 1px solid #f7c6c7;
+  border-radius: 4px;
+  color: #a4262c;
+  
+  .errorIcon {
+    margin-right: 12px;
+    font-size: 18px;
+  }
+}
+
+.placeholder {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  
+  .placeholderIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #0078d4;
+  }
+  
+  .placeholderTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .placeholderDescription {
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  
+  .configureButton {
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    
+    &:hover {
+      background: #106ebe;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

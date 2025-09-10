@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "adaptive-card-viewer-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/adaptiveCardViewer/AdaptiveCardViewerWebPart.js",
+          "manifest": "./src/webparts/adaptiveCardViewer/AdaptiveCardViewerWebPart.manifest.json"
+        }
+      ]
+    },
+    "dashboard-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/dashboard/DashboardWebPart.js",
+          "manifest": "./src/webparts/dashboard/DashboardWebPart.manifest.json"
+        }
+      ]
+    },
+    "manager-dashboard-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/managerDashboard/ManagerDashboardWebPart.js",
+          "manifest": "./src/webparts/managerDashboard/ManagerDashboardWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "AdaptiveCardViewerWebPartStrings": "lib/webparts/adaptiveCardViewer/loc/{locale}.js",
+    "DashboardWebPartStrings": "lib/webparts/dashboard/loc/{locale}.js",
+    "ManagerDashboardWebPartStrings": "lib/webparts/managerDashboard/loc/{locale}.js"
+  }
+}

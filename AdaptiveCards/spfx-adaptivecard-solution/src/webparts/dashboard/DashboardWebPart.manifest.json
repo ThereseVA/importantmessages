@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "a7b8c9d0-e1f2-3456-7890-123456bcdef0",
+  "alias": "DashboardWebPart",
+  "componentType": "WebPart",
+
+  "version": "*",
+  "manifestVersion": 2,
+
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+
+  "supportsThemeVariants": true,
+
+  "preconfiguredEntries": [{
+    "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+    "group": { "default": "Communication and Collaboration" },
+    "title": { "default": "📊 Personal Dashboard" },
+    "description": { "default": "View personalized message statistics and reading confirmations" },
+    "officeFabricIconFontName": "BarChart4",
+    "properties": {
+      "title": "📊 Personal Dashboard"
+    }
+  }]
+}

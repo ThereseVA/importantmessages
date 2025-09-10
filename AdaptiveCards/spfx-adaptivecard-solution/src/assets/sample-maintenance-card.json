@@ -1,0 +1,146 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiNGRjY5MDAiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMSA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDMgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+",
+                  "size": "Small",
+                  "style": "Person"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Important System Maintenance Notice",
+                  "weight": "Bolder",
+                  "size": "Medium"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "System Administration",
+                  "spacing": "None",
+                  "isSubtle": true
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "HIGH",
+                  "color": "Attention",
+                  "weight": "Bolder",
+                  "size": "Small"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "bleed": true
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "**Scheduled Maintenance Window**",
+          "weight": "Bolder",
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "We will be performing critical system maintenance on our SharePoint environment. During this time, some services may be temporarily unavailable.",
+          "wrap": true,
+          "spacing": "Small"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Date:",
+              "value": "August 15, 2025"
+            },
+            {
+              "title": "Time:",
+              "value": "2:00 AM - 6:00 AM EST"
+            },
+            {
+              "title": "Duration:",
+              "value": "Approximately 4 hours"
+            },
+            {
+              "title": "Impact:",
+              "value": "SharePoint, Teams, OneDrive"
+            }
+          ],
+          "spacing": "Medium"
+        },
+        {
+          "type": "TextBlock",
+          "text": "**What you need to know:**",
+          "weight": "Bolder",
+          "spacing": "Medium"
+        },
+        {
+          "type": "Container",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "• Save any unsaved work before the maintenance window",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock", 
+              "text": "• Access to SharePoint sites will be limited",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "• Email services will continue to operate normally",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "• We'll send an all-clear notification when complete",
+              "wrap": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "More Details",
+      "url": "https://status.office.com/"
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Mark as Read",
+      "data": {
+        "action": "markAsRead",
+        "messageId": "maintenance-2025-08-15"
+      }
+    }
+  ]
+}
